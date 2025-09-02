@@ -1,0 +1,93 @@
+{
+  "_comment": "Example configuration file for infra-tools CLI",
+  "_usage": "Copy this file to services.json and customize as needed",
+  
+  "project": {
+    "name": "my-infra",
+    "network": {
+      "name": "my-infra-network",
+      "subnet": "172.21.0.0/16",
+      "driver": "bridge"
+    }
+  },
+  
+  "services": {
+    "postgres": {
+      "image": "postgres:16-alpine",
+      "ports": ["5433"],
+      "environment": {
+        "POSTGRES_DB": "myapp",
+        "POSTGRES_USER": "myuser",
+        "POSTGRES_PASSWORD": "mysecretpassword"
+      },
+      "volumes": ["postgres-data"],
+      "description": "Primary PostgreSQL Database",
+      "group": "databases"
+    },
+    
+    "redis": {
+      "image": "redis:7-alpine",
+      "ports": ["6380"],
+      "environment": {
+        "REDIS_PASSWORD": "myredispassword"
+      },
+      "volumes": ["redis-data"],
+      "description": "Redis Cache Server",
+      "group": "databases"
+    },
+    
+    "mysql": {
+      "image": "mysql:8.0",
+      "ports": ["3307"],
+      "environment": {
+        "MYSQL_ROOT_PASSWORD": "myrootpassword",
+        "MYSQL_DATABASE": "myapp",
+        "MYSQL_USER": "myuser",
+        "MYSQL_PASSWORD": "myuserpassword"
+      },
+      "volumes": ["mysql-data"],
+      "description": "MySQL Database",
+      "group": "databases"
+    },
+
+    "mongo": {
+      "image": "mongo:7.0",
+      "ports": ["27018"],
+      "environment": {
+        "MONGO_INITDB_ROOT_USERNAME": "admin",
+        "MONGO_INITDB_ROOT_PASSWORD": "mongopassword",
+        "MONGO_INITDB_DATABASE": "myapp"
+      },
+      "volumes": ["mongo-data"],
+      "description": "MongoDB Document Database",
+      "group": "databases"
+    },
+
+    "kafka": {
+      "image": "confluentinc/cp-kafka:7.5.0",
+      "ports": ["9093"],
+      "environment": {
+        "KAFKA_BROKER_ID": "1",
+        "KAFKA_ZOOKEEPER_CONNECT": "zookeeper:2181",
+        "KAFKA_ADVERTISED_LISTENERS": "PLAINTEXT://localhost:9093",
+        "KAFKA_AUTO_CREATE_TOPICS_ENABLE": "true"
+      },
+      "volumes": ["kafka-data"],
+      "description": "Apache Kafka Message Broker",
+      "group": "messaging"
+    },
+
+    "grafana": {
+      "image": "grafana/grafana:10.2.0", 
+      "ports": ["3001"],
+      "environment": {
+        "GF_SECURITY_ADMIN_USER": "myuser",
+        "GF_SECURITY_ADMIN_PASSWORD": "mypassword",
+        "GF_INSTALL_PLUGINS": "grafana-clock-panel,grafana-simple-json-datasource"
+      },
+      "volumes": ["grafana-data"],
+      "description": "Grafana Monitoring Dashboards",
+      "group": "monitoring"
+    }
+  }
+}

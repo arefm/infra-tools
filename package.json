@@ -1,0 +1,80 @@
+{
+  "name": "infra-tools",
+  "version": "1.0.0",
+  "description": "Cross-platform Docker infrastructure management CLI - Start 15+ enterprise services with one command",
+  "main": "src/index.js",
+  "bin": {
+    "infra-tools": "./bin/infra-tools.js"
+  },
+  "preferGlobal": true,
+  "scripts": {
+    "start": "node bin/infra-tools.js",
+    "test": "jest",
+    "lint": "eslint src/**/*.js",
+    "lint:fix": "eslint src/**/*.js --fix",
+    "format": "prettier --write \"src/**/*.js\" \"bin/**/*.js\"",
+    "format:check": "prettier --check \"src/**/*.js\" \"bin/**/*.js\"",
+    "prepare": "husky",
+    "pre-commit": "npm run format && npm run lint && npm test",
+    "build": "echo 'No build step required'",
+    "prepublishOnly": "npm test && npm run lint && npm run format:check"
+  },
+  "keywords": [
+    "docker",
+    "docker-compose", 
+    "infrastructure",
+    "development",
+    "database",
+    "microservices",
+    "cli",
+    "devops",
+    "postgres",
+    "mysql",
+    "mongodb",
+    "redis",
+    "kafka",
+    "elasticsearch",
+    "prometheus",
+    "grafana"
+  ],
+  "author": "Aref M <code@aref.uk> (https://aref.uk)",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/aref-m/infra-tools-node.git",
+    "directory": "nodejs-cli"
+  },
+  "bugs": {
+    "url": "https://github.com/aref-m/infra-tools-node/issues"
+  },
+  "homepage": "https://github.com/aref-m/infra-tools-node#readme",
+  "engines": {
+    "node": ">=16.0.0"
+  },
+  "dependencies": {
+    "commander": "^11.1.0",
+    "dockerode": "^4.0.2",
+    "chalk": "^4.1.2",
+    "ora": "^5.4.1",
+    "cli-table3": "^0.6.3",
+    "inquirer": "^8.2.6",
+    "js-yaml": "^4.1.0",
+    "find-free-port": "^2.0.0",
+    "cross-spawn": "^7.0.3",
+    "fs-extra": "^11.2.0"
+  },
+  "devDependencies": {
+    "jest": "^29.7.0",
+    "eslint": "^8.57.0",
+    "eslint-config-prettier": "^9.1.0",
+    "prettier": "^3.2.5",
+    "husky": "^9.0.11",
+    "@types/node": "^20.11.5"
+  },
+  "files": [
+    "bin/",
+    "src/",
+    "README.md",
+    "LICENSE"
+  ]
+}
