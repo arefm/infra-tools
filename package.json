@@ -1,6 +1,6 @@
 {
   "name": "infra-tools",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "Cross-platform Docker infrastructure management CLI - Start 15+ enterprise services with one command",
   "main": "src/index.js",
   "bin": {
@@ -41,13 +41,13 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/aref-m/infra-tools-node.git",
+    "url": "https://github.com/arefm/infra-tools-node.git",
     "directory": "nodejs-cli"
   },
   "bugs": {
-    "url": "https://github.com/aref-m/infra-tools-node/issues"
+    "url": "https://github.com/arefm/infra-tools-node/issues"
   },
-  "homepage": "https://github.com/aref-m/infra-tools-node#readme",
+  "homepage": "https://github.com/arefm/infra-tools-node#readme",
   "engines": {
     "node": ">=16.0.0"
   },
