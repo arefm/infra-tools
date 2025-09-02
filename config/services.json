@@ -1,0 +1,291 @@
+{
+  "project": {
+    "name": "infra",
+    "network": {
+      "name": "infra-network",
+      "subnet": "172.20.0.0/16",
+      "driver": "bridge"
+    }
+  },
+  "services": {
+    "postgres": {
+      "image": "postgres:17-alpine",
+      "ports": [
+        "5432"
+      ],
+      "environment": {
+        "POSTGRES_DB": "postgres",
+        "POSTGRES_USER": "postgres",
+        "POSTGRES_PASSWORD": "password"
+      },
+      "volumes": [
+        "postgres17-data"
+      ],
+      "group": "databases"
+    },
+    "mysql": {
+      "image": "mysql:8.0",
+      "ports": [
+        "3306"
+      ],
+      "environment": {
+        "MYSQL_ROOT_PASSWORD": "password",
+        "MYSQL_DATABASE": "mysql"
+      },
+      "volumes": [
+        "mysql-data"
+      ],
+      "description": "MySQL Database",
+      "group": "databases"
+    },
+    "mongo": {
+      "image": "mongo:7.0",
+      "ports": [
+        "27017"
+      ],
+      "environment": {
+        "MONGO_INITDB_ROOT_USERNAME": "root",
+        "MONGO_INITDB_ROOT_PASSWORD": "password"
+      },
+      "volumes": [
+        "mongo-data"
+      ],
+      "description": "MongoDB Database",
+      "group": "databases"
+    },
+    "redis": {
+      "image": "redis:7-alpine",
+      "ports": [
+        "6379"
+      ],
+      "environment": {
+        "REDIS_PASSWORD": ""
+      },
+      "volumes": [
+        "redis7-data"
+      ],
+      "group": "databases"
+    },
+    "mssql": {
+      "image": "mcr.microsoft.com/mssql/server:2022-latest",
+      "ports": [
+        "1433"
+      ],
+      "environment": {
+        "SA_PASSWORD": "1Secure*Password1%",
+        "ACCEPT_EULA": "Y"
+      },
+      "volumes": [
+        "mssql-data"
+      ],
+      "description": "SQL Server Database",
+      "group": "databases"
+    },
+    "neo4j": {
+      "image": "neo4j:5.13",
+      "ports": [
+        "7474",
+        "7687"
+      ],
+      "environment": {
+        "NEO4J_AUTH": "neo4j/password",
+        "NEO4J_PLUGINS": "[\"apoc\"]"
+      },
+      "volumes": [
+        "neo4j-data",
+        "neo4j-logs"
+      ],
+      "description": "Neo4j Graph Database",
+      "group": "databases"
+    },
+    "couchdb": {
+      "image": "couchdb:3.3",
+      "ports": [
+        "5984"
+      ],
+      "environment": {
+        "COUCHDB_USER": "admin",
+        "COUCHDB_PASSWORD": "password"
+      },
+      "volumes": [
+        "couchdb-data"
+      ],
+      "description": "CouchDB Database",
+      "group": "databases"
+    },
+    "kafka": {
+      "image": "confluentinc/cp-kafka:7.5.0",
+      "ports": [
+        "9092"
+      ],
+      "environment": {
+        "KAFKA_BROKER_ID": "1",
+        "KAFKA_ZOOKEEPER_CONNECT": "zookeeper:2181",
+        "KAFKA_ADVERTISED_LISTENERS": "PLAINTEXT://localhost:9092"
+      },
+      "volumes": [
+        "kafka-data"
+      ],
+      "description": "Apache Kafka",
+      "group": "messaging"
+    },
+    "zookeeper": {
+      "image": "confluentinc/cp-zookeeper:7.5.0",
+      "ports": [
+        "2181"
+      ],
+      "environment": {
+        "ZOOKEEPER_CLIENT_PORT": "2181",
+        "ZOOKEEPER_TICK_TIME": "2000"
+      },
+      "volumes": [
+        "zookeeper-data"
+      ],
+      "description": "Apache Zookeeper",
+      "group": "messaging"
+    },
+    "rabbitmq": {
+      "image": "rabbitmq:3.12-management-alpine",
+      "ports": [
+        "5672",
+        "15672"
+      ],
+      "environment": {
+        "RABBITMQ_DEFAULT_USER": "admin",
+        "RABBITMQ_DEFAULT_PASS": "password"
+      },
+      "volumes": [
+        "rabbitmq-data"
+      ],
+      "description": "RabbitMQ Message Broker",
+      "group": "messaging"
+    },
+    "elasticsearch": {
+      "image": "docker.elastic.co/elasticsearch/elasticsearch:8.11.0",
+      "ports": [
+        "9200"
+      ],
+      "environment": {
+        "discovery.type": "single-node",
+        "ELASTIC_PASSWORD": "elastic",
+        "xpack.security.enabled": "false"
+      },
+      "volumes": [
+        "elasticsearch-data"
+      ],
+      "description": "Elasticsearch Search Engine",
+      "group": "logging"
+    },
+    "logstash": {
+      "image": "docker.elastic.co/logstash/logstash:8.11.0",
+      "ports": [
+        "5044"
+      ],
+      "environment": {
+        "LS_JAVA_OPTS": "-Xmx512m -Xms512m"
+      },
+      "volumes": [
+        "logstash-data"
+      ],
+      "description": "Logstash Log Processor",
+      "group": "logging"
+    },
+    "kibana": {
+      "image": "docker.elastic.co/kibana/kibana:8.11.0",
+      "ports": [
+        "5601"
+      ],
+      "environment": {
+        "ELASTICSEARCH_HOSTS": "http://elasticsearch:9200"
+      },
+      "volumes": [
+        "kibana-data"
+      ],
+      "description": "Kibana Visualization",
+      "group": "logging"
+    },
+    "prometheus": {
+      "image": "prom/prometheus:v2.48.0",
+      "ports": [
+        "9090"
+      ],
+      "environment": {},
+      "volumes": [
+        "prometheus-data"
+      ],
+      "description": "Prometheus Monitoring",
+      "group": "monitoring"
+    },
+    "grafana": {
+      "image": "grafana/grafana:10.2.0",
+      "ports": [
+        "3000"
+      ],
+      "environment": {
+        "GF_SECURITY_ADMIN_USER": "admin",
+        "GF_SECURITY_ADMIN_PASSWORD": "admin"
+      },
+      "volumes": [
+        "grafana-data"
+      ],
+      "description": "Grafana Dashboards",
+      "group": "monitoring"
+    },
+    "kong-database": {
+      "image": "postgres:15-alpine",
+      "ports": [
+        "5433"
+      ],
+      "environment": {
+        "POSTGRES_DB": "kong",
+        "POSTGRES_USER": "kong",
+        "POSTGRES_PASSWORD": "kong"
+      },
+      "volumes": [
+        "kong-db-data"
+      ],
+      "description": "Kong Database",
+      "group": "gateway"
+    },
+    "kong": {
+      "image": "kong:3.4",
+      "ports": [
+        "8000",
+        "8001"
+      ],
+      "environment": {
+        "KONG_DATABASE": "postgres",
+        "KONG_PG_HOST": "kong-database",
+        "KONG_PG_PASSWORD": "kong"
+      },
+      "volumes": [],
+      "description": "Kong API Gateway",
+      "group": "gateway"
+    },
+    "konga": {
+      "image": "pantsel/konga:latest",
+      "ports": [
+        "1337"
+      ],
+      "environment": {
+        "NODE_ENV": "production"
+      },
+      "volumes": [],
+      "description": "Kong Admin UI",
+      "group": "gateway"
+    },
+    "keycloak": {
+      "image": "quay.io/keycloak/keycloak:22.0",
+      "ports": [
+        "8080"
+      ],
+      "environment": {
+        "KEYCLOAK_ADMIN": "admin",
+        "KEYCLOAK_ADMIN_PASSWORD": "admin"
+      },
+      "volumes": [],
+      "description": "Keycloak Identity Provider",
+      "group": "authentication"
+    }
+  }
+}
