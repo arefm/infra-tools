@@ -16,7 +16,6 @@ const ShellCommand = require('../src/commands/shell');
 const InspectCommand = require('../src/commands/inspect');
 const PortsCommand = require('../src/commands/ports');
 const VolumesCommand = require('../src/commands/volumes');
-const BackupCommand = require('../src/commands/backup');
 const PullCommand = require('../src/commands/pull');
 const BuildCommand = require('../src/commands/build');
 const CleanCommand = require('../src/commands/clean');
@@ -189,72 +188,83 @@ program
     }
   });
 
-// Volumes command
-program
-  .command('volumes')
-  .description('Show volume usage')
-  .argument('[service]', 'Specific service to check volumes for')
+// ===== VOLUMES COMMAND GROUP =====
+const volumesCmd = program.command('volumes').description('Volume management commands');
+
+// volumes (default) - Show volume usage
+volumesCmd
+  .command('show [service]', { isDefault: true })
+  .description('Show volume usage and disk space')
   .action(async (service, options) => {
     try {
       await VolumesCommand.execute(service, options);
     } catch (error) {
-      logger.error(`Volumes command failed: ${error.message}`);
+      logger.error(`Volumes show command failed: ${error.message}`);
       process.exit(1);
     }
   });
 
-// List volumes command
-program
-  .command('list-volumes')
+// volumes list - List volumes with detailed information
+volumesCmd
+  .command('list [service]')
   .description('List volumes with detailed information')
-  .argument('[service]', 'Specific service to list volumes for')
   .action(async (service, options) => {
     try {
       await VolumesCommand.list(service, options);
     } catch (error) {
-      logger.error(`List volumes command failed: ${error.message}`);
+      logger.error(`Volumes list command failed: ${error.message}`);
       process.exit(1);
     }
   });
 
-// Inspect volume command
-program
-  .command('inspect-volume')
+// volumes inspect - Inspect specific volume details
+volumesCmd
+  .command('inspect <volume>')
   .description('Inspect specific volume details')
-  .argument('<volume>', 'Volume name to inspect')
   .action(async (volume, options) => {
     try {
       await VolumesCommand.inspect(volume, options);
     } catch (error) {
-      logger.error(`Inspect volume command failed: ${error.message}`);
+      logger.error(`Volumes inspect command failed: ${error.message}`);
       process.exit(1);
     }
   });
 
-// Remove volume command
-program
-  .command('remove-volume')
+// volumes remove - Remove specific volume
+volumesCmd
+  .command('remove <volume>')
   .description('Remove specific volume (with confirmation)')
-  .argument('<volume>', 'Volume name to remove')
   .action(async (volume, options) => {
     try {
       await VolumesCommand.remove(volume, options);
     } catch (error) {
-      logger.error(`Remove volume command failed: ${error.message}`);
+      logger.error(`Volumes remove command failed: ${error.message}`);
       process.exit(1);
     }
   });
 
-// Backup command
-program
-  .command('backup')
-  .description('Backup volumes')
-  .argument('[volumes...]', 'Specific volumes to backup (default: all)')
-  .action(async (volumes, options) => {
+// volumes backup - Backup volume to compressed archive
+volumesCmd
+  .command('backup <volume>')
+  .description('Backup volume to compressed archive')
+  .action(async (volume, options) => {
     try {
-      await BackupCommand.execute(volumes, options);
+      await VolumesCommand.backup(volume, options);
     } catch (error) {
-      logger.error(`Backup command failed: ${error.message}`);
+      logger.error(`Volumes backup command failed: ${error.message}`);
+      process.exit(1);
+    }
+  });
+
+// volumes restore - Restore volume from compressed archive
+volumesCmd
+  .command('restore <volume>')
+  .description('Restore volume from compressed archive')
+  .action(async (volume, options) => {
+    try {
+      await VolumesCommand.restore(volume, options);
+    } catch (error) {
+      logger.error(`Volumes restore command failed: ${error.message}`);
       process.exit(1);
     }
   });
