@@ -1,6 +1,6 @@
 {
   "name": "infra-tools",
-  "version": "1.4.0",
+  "version": "1.4.1",
   "description": "Cross-platform Docker infrastructure management CLI - Start 15+ enterprise services with one command",
   "main": "src/index.js",
   "bin": {

@@ -44,7 +44,7 @@ describe('VolumesCommand', () => {
 
     // Mock platform
     platform.executeShellCommand = jest.fn().mockResolvedValue({ stdout: '', stderr: '' });
-    platform.isWindows = jest.fn().mockReturnValue(false);
+    platform.isWindows = false;
 
     // Mock fs
     fs.existsSync = jest.fn().mockReturnValue(true);

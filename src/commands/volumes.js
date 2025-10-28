@@ -280,7 +280,7 @@ class VolumesCommand {
     try {
       // Use a temporary container to create tar.gz archive of the volume
       // Docker run command: mount volume, tar contents, output to host
-      const normalizedBackupPath = platform.isWindows()
+      const normalizedBackupPath = platform.isWindows
         ? backupFilePath.replace(/\\/g, '/')
         : backupFilePath;
 
@@ -401,7 +401,7 @@ class VolumesCommand {
 
       // Restore from archive
       spinner.text = 'Extracting backup archive...';
-      const normalizedArchivePath = platform.isWindows()
+      const normalizedArchivePath = platform.isWindows
         ? resolvedArchivePath.replace(/\\/g, '/')
         : resolvedArchivePath;
 
