@@ -14,6 +14,7 @@
 - **🔌 15+ Services**: PostgreSQL, MySQL, MongoDB, Redis, Kafka, ELK, and more
 - **⚡ Dynamic Ports**: Automatic port conflict resolution
 - **📊 Rich UI**: Beautiful tables and status indicators
+- **💾 Volume Management**: Backup & restore volumes with compression
 - **🔧 Zero Config**: Works out of the box with existing Docker Compose files
 
 ## 🚀 Quick Start
@@ -119,10 +120,20 @@ npx infra-tools inspect <service>       # Inspect container
 npx infra-tools vars <service>          # Show environment variables
 ```
 
-### Data Management
+### Volume Management
 ```bash
-npx infra-tools volumes [service]       # Show volumes
-npx infra-tools backup [volumes...]     # Backup data
+# Volume operations (all subcommands under 'volumes')
+npx infra-tools volumes                     # Show volume usage (default)
+npx infra-tools volumes show [service]      # Show volume usage
+npx infra-tools volumes list [service]      # List volumes with details
+npx infra-tools volumes inspect <volume>    # Inspect specific volume
+npx infra-tools volumes backup <volume>     # Backup volume to .tar.gz archive
+npx infra-tools volumes restore <volume>    # Restore volume from archive
+npx infra-tools volumes remove <volume>     # Remove volume (with confirmation)
+```
+
+### Maintenance
+```bash
 npx infra-tools clean                   # Remove stopped containers
 npx infra-tools reset                   # Reset environment
 ```
@@ -138,6 +149,24 @@ npx infra-tools config postgres
 # - Ports (default: 5432)
 # - Volume names (default: postgres-data)
 # - Environment variables
+```
+
+### Volume Backup & Restore
+```bash
+# Backup a specific volume to compressed archive
+npx infra-tools volumes backup postgres
+# Prompts for backup directory (default: ./backups)
+# Creates: infra_postgres-data_2025-10-28.tar.gz
+
+# Restore volume from archive
+npx infra-tools volumes restore postgres
+# Prompts for archive path
+# Shows containers using the volume
+# Requires confirmation before restore
+
+# Backup/restore supports both service names and full volume names
+npx infra-tools volumes backup infra_postgres-data
+npx infra-tools volumes restore infra_mysql-data
 ```
 
 ### Dynamic Port Assignment
@@ -206,4 +235,4 @@ The Node.js CLI maintains 100% compatibility with the existing Bash version:
 
 ---
 
-**Infra-Tools v1.0.0** - Created by 👨‍💻 [Aref M](https://aref.uk) | Licensed under MIT
+**Infra-Tools v1.4.0** - Created by 👨‍💻 [Aref M](https://aref.uk) | Licensed under MIT
